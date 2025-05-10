@@ -134,7 +134,7 @@ export default function WelcomeScreen() {
               />
             )}
           />
-          <BlockedButton onPress={onSubmit}>MASUK</BlockedButton>
+          <BlockedButton onPress={onSubmit}>MASUK TES</BlockedButton>
         </View>
       </KeyboardAvoidingView>
       <View
