@@ -1,4 +1,4 @@
-export type Membership = {
+export type MembershipModel = {
   id: string;
   name: string;
   referralLimit: number;

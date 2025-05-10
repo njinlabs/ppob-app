@@ -1,5 +1,3 @@
-import { Membership } from "./membership";
-
 export type UserModel = {
   id: string;
   fullname: string;
@@ -9,5 +7,4 @@ export type UserModel = {
   referralCode: string;
   referredById: string;
   membershipId: string;
-  membership: Membership | null;
 };

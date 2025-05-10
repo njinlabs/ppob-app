@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import Text from "./Text";
+import Text, { sizing } from "./Text";
 
 type Props = {
   leftAccessory?: FC;
@@ -80,7 +80,7 @@ export default function TextInput({
             width: "100%",
             height: "100%",
             fontFamily: getFont("Roboto_400Regular"),
-            fontSize: 14,
+            fontSize: sizing.regular,
             paddingLeft: Left ? 48 : 16,
             paddingRight: Right ? 48 : 16,
           }}

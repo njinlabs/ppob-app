@@ -2,7 +2,7 @@ import { colors } from "@/constants/Colors";
 import { fonts } from "@/constants/Fonts";
 import { TextProps as Base, Text as Typo } from "react-native";
 
-const sizing = {
+export const sizing = {
   extraSmall: 10,
   small: 12,
   regular: 14,

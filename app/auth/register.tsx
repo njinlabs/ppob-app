@@ -25,7 +25,7 @@ export default function Register() {
     mutationFn: register,
     onSuccess: ({ data }) => {
       setToken(data.token, true);
-      router.replace("/(tabs)");
+      router.replace("/(private)/(tabs)");
     },
   });
 
