@@ -1,28 +1,239 @@
-import Logo from "@/assets/svgs/logo";
-import { colors } from "@/constants/Colors";
-import { Link } from "expo-router";
-import { useMemo } from "react";
-import { Dimensions, SafeAreaView, View } from "react-native";
+import React from "react";
 
-export default function Home() {
-  const width = useMemo(() => Dimensions.get("screen").width, []);
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+
+import Logo from "@/assets/svgs/logo";
+import DisplayMenu from "@/components/DisplayMenu";
+import MiniButton from "@/components/MiniButton";
+import Text from "@/components/Text";
+import { colors } from "@/constants/Colors";
+import { paymentMenuList } from "@/constants/PaymentMenuList";
+import { Link } from "expo-router";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
+import PagerView from "react-native-pager-view";
+import { NumericFormat } from "react-number-format";
+
+export default function Dashboard() {
+  const images = [
+    "https://placehold.co/600x400/png",
+    "https://placehold.co/600x400/png",
+    "https://placehold.co/600x400/png",
+  ];
 
   return (
-    <SafeAreaView>
+    <View style={{ flex: 1, backgroundColor: colors.grayscale[50] }}>
       <View
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: colors.primary[500],
-          height: 290,
+          paddingTop: (StatusBar.currentHeight || 48) + 16,
+          paddingHorizontal: 22,
+          position: "relative",
         }}
-      />
-      <View style={{ padding: 24 }}>
-        <Logo width={0.3 * width} />
+      >
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 48,
+            left: 0,
+            right: 0,
+            backgroundColor: colors.primary[500],
+          }}
+        ></View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 4,
+            marginBottom: 24,
+          }}
+        >
+          <Logo width={0.3 * Dimensions.get("screen").width} />
+
+          <View style={styles.box}>
+            <Text
+              font="Nunito_800ExtraBold"
+              size="small"
+              style={{
+                color: colors.primary[600],
+              }}
+            >
+              Non Member
+            </Text>
+            <Entypo
+              name="chevron-right"
+              size={16}
+              color={colors.primary[600]}
+            />
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+            >
+              <MaterialIcons
+                name="account-balance-wallet"
+                size={20}
+                color={colors.primary[600]}
+              />
+              <Text font="Nunito_600SemiBold" size="regular">
+                Wallet
+              </Text>
+            </View>
+
+            <View
+              style={{
+                paddingVertical: 6,
+                paddingHorizontal: 14,
+                backgroundColor: colors.grayscale[100],
+                borderRadius: 30 / 2,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                font="Nunito_600SemiBold"
+                size="small"
+                style={{ color: colors.primary[600] }}
+              >
+                1000 Poin
+              </Text>
+            </View>
+          </View>
+          <NumericFormat
+            value={24321900}
+            displayType="text"
+            thousandSeparator=","
+            prefix="Rp"
+            renderText={(value) => (
+              <Text
+                size="large"
+                font="Roboto_800ExtraBold"
+                style={{ marginBottom: 16 }}
+              >
+                {value}
+              </Text>
+            )}
+          />
+          <View style={{ flexDirection: "row" }}>
+            <MiniButton
+              style={{ marginRight: 8 }}
+              leftAccesorry={() => (
+                <MaterialIcons
+                  name="credit-card"
+                  size={16}
+                  color={colors.white}
+                />
+              )}
+            >
+              Deposit
+            </MiniButton>
+            <MiniButton
+              leftAccesorry={() => (
+                <MaterialIcons
+                  name="receipt-long"
+                  size={16}
+                  color={colors.white}
+                />
+              )}
+            >
+              Mutasi
+            </MiniButton>
+          </View>
+        </View>
       </View>
-      <Link href="/transaction/pulsa-and-data">Pulsa</Link>
-    </SafeAreaView>
+      <FlatList
+        data={paymentMenuList}
+        renderItem={({ item: { title, icon: Icon, color } }) => (
+          <Link href="/(private)/transaction/pulsa-and-data" asChild>
+            <DisplayMenu
+              color={color}
+              title={title}
+              icon={() => <Icon size={40} />}
+            />
+          </Link>
+        )}
+        style={{ flex: 1 }}
+        keyExtractor={(_, key) => `${key}`}
+        ListHeaderComponent={
+          <View>
+            <PagerView style={styles.pager} initialPage={0}>
+              {images.map((uri, index) => (
+                <View style={styles.page} key={index.toString()}>
+                  <Image source={{ uri }} style={styles.image} />
+                </View>
+              ))}
+            </PagerView>
+            <Text
+              font="Nunito_800ExtraBold"
+              size="large"
+              style={{ marginBottom: 20 }}
+            >
+              Payment List
+            </Text>
+          </View>
+        }
+        columnWrapperStyle={{ marginBottom: 28 }}
+        contentContainerStyle={{ paddingHorizontal: 22, paddingBottom: 36 }}
+        numColumns={4} // Menampilkan 4 kolom per baris
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  box: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.primary[100],
+    borderRadius: 30 / 2,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+
+    // Shadow untuk iOS
+    shadowColor: "#000", // Warna shadow
+    shadowOffset: { width: 0, height: 4 }, // Posisi shadow
+    shadowOpacity: 0.1, // Kekuatan shadow
+    shadowRadius: 8, // Jarak shadow
+
+    // Shadow untuk Android
+    elevation: 5, // Ukuran shadow di Android
+
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  pager: {
+    height: 124 + 48,
+    marginVertical: 24,
+  },
+  page: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: Dimensions.get("screen").width - 44,
+    aspectRatio: 314 / 124,
+    resizeMode: "cover",
+    borderRadius: 12,
+  },
+});
