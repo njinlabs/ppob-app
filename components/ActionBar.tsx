@@ -30,19 +30,19 @@ export default function ActionBar({
     >
       <View
         style={{
-          height: 56,
+          height: 64,
           flexDirection: "row",
           alignItems: "center",
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            height: "100%",
-            justifyContent: "center",
-          }}
-        >
-          {back && (
+        {back && (
+          <View
+            style={{
+              flex: 1,
+              height: "100%",
+              justifyContent: "center",
+            }}
+          >
             <TouchableOpacity
               style={{
                 paddingLeft: 22,
@@ -58,13 +58,13 @@ export default function ActionBar({
                 style={{ color: colors.white }}
               />
             </TouchableOpacity>
-          )}
-        </View>
+          </View>
+        )}
         <View>
           <Text
             font="Nunito_800ExtraBold"
             size="large"
-            style={{ color: colors.white }}
+            style={{ color: colors.white, paddingHorizontal: 22 }}
           >
             {title}
           </Text>

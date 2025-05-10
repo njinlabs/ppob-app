@@ -1,19 +1,13 @@
 import ActionBar from "@/components/ActionBar";
 import { Stack } from "expo-router";
 
-export default function AuthLayout() {
+export default function TransactionLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index"
+        name="pulsa-and-data"
         options={{
-          title: "Welcome",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="register"
-        options={{
+          title: "Pulsa & Paket Data",
           header: ({ navigation, options }) => (
             <ActionBar
               title={options.title}

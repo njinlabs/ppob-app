@@ -1,12 +1,7 @@
 import { colors } from "@/constants/Colors";
-import { getFont } from "@/constants/Fonts";
 import { forwardRef } from "react";
-import {
-  Text,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-} from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import Text from "./Text";
 
 type Props = {
   children?: string;
@@ -34,10 +29,9 @@ const BlockedButton = forwardRef<View, BlockedButtonProps>(
         ]}
       >
         <Text
+          font="Nunito_700Bold"
           style={{
-            fontFamily: getFont("Nunito_700Bold"),
             color: colors.white,
-            fontSize: 14,
           }}
         >
           {children}
