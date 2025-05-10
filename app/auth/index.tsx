@@ -9,7 +9,7 @@ import { getFont } from "@/constants/Fonts";
 import { useAuth } from "@/stores/auth";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "expo-router";
+import { Link, useRouter } from 'expo-router';
 import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -22,6 +22,8 @@ import {
 
 export default function WelcomeScreen() {
   const setToken = useAuth((state) => state.setToken);
+
+  const router = useRouter();
 
   const loginMutation = useMutation({
     mutationFn: login,
@@ -37,9 +39,12 @@ export default function WelcomeScreen() {
   const width = useMemo(() => Dimensions.get("window").width, []);
   const height = useMemo(() => Dimensions.get("window").height, []);
 
-  const onSubmit = handleSubmit(({ email, ...data }) =>
-    loginMutation.mutate({ ...data, email: email.replace(/^0/, "62") })
-  );
+  // const onSubmit = handleSubmit(({ email, ...data }) =>
+  //   loginMutation.mutate({ ...data, email: email.replace(/^0/, "62") })
+  // );
+  const onSubmit = () => {
+    router.navigate('/dashboard');
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -134,7 +139,7 @@ export default function WelcomeScreen() {
               />
             )}
           />
-          <BlockedButton onPress={onSubmit}>MASUK TES</BlockedButton>
+          <BlockedButton onPress={onSubmit}>MASUK</BlockedButton>
         </View>
       </KeyboardAvoidingView>
       <View
