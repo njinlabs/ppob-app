@@ -4,8 +4,9 @@ import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import Text from "./Text";
 
 type Props = {
-  children: string;
+  children?: string;
   leftAccessory?: FC;
+  rightAccessory?: FC;
   divider?: boolean;
 };
 
@@ -13,7 +14,7 @@ export type MenuListProps = Props & Omit<TouchableOpacityProps, keyof Props>;
 
 const MenuList = forwardRef<View, MenuListProps>(
   (
-    { children, leftAccessory: LeftAccessory, style, divider, ...props },
+    { children, leftAccessory: LeftAccessory, rightAccessory: RightAccessory, style, divider, ...props },
     ref
   ) => (
     <TouchableOpacity
@@ -41,7 +42,22 @@ const MenuList = forwardRef<View, MenuListProps>(
           <LeftAccessory />
         </View>
       )}
-      <Text style={{ flex: 1 }}>{children}</Text>
+
+      {RightAccessory && (
+        <View
+          style={{
+            marginRight: 10,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <RightAccessory />
+        </View>
+      )}
+
+      {children && (
+        <Text style={{ flex: 1 }}>{children}</Text>
+      )}
     </TouchableOpacity>
   )
 );
