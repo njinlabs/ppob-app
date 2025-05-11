@@ -2,9 +2,12 @@ import BlockedButton from "@/components/BlockedButton";
 import MenuList from "@/components/MenuList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 import { ScrollView, StatusBar, View } from "react-native";
 
 export default function ConfirmationTransaction() {
+  const router = useRouter();
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.grayscale[50] }}>
       <ScrollView 
@@ -131,6 +134,7 @@ export default function ConfirmationTransaction() {
         }}
       >
         <BlockedButton
+          onPress={() => router.push("/(private)/receipt/e-receipt")}
           style={{ backgroundColor: colors.primary[600] }}
         >
           BAYAR
