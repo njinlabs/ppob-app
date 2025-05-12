@@ -1,7 +1,13 @@
 import { colors } from "@/constants/Colors";
 import { Moment } from "moment";
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import Animated, {
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 import { NumericFormat } from "react-number-format";
 import Text from "./Text";
 
@@ -13,6 +19,7 @@ type Props = {
   total?: number;
   status?: Status;
   date?: Moment;
+  loading?: boolean;
 };
 
 const statusColors: Record<Status, { background: string; color: string }> = {
@@ -25,7 +32,38 @@ export type PurchaseListProps = Props &
   Omit<TouchableOpacityProps, keyof Props>;
 
 const PurchaseList = forwardRef<View, PurchaseListProps>(
-  ({ style, title, subtitle, total, status, date, ...props }, ref) => {
+  (
+    {
+      style,
+      title,
+      subtitle,
+      total,
+      status,
+      date,
+      disabled,
+      loading,
+      ...props
+    },
+    ref
+  ) => {
+    const opacity = useSharedValue<number>(0.3);
+
+    useEffect(() => {
+      if (loading) {
+        opacity.value = withRepeat(
+          withSequence(
+            withTiming(0.1, {
+              duration: 750,
+            }),
+            withTiming(0.3, {
+              duration: 750,
+            })
+          ),
+          -1
+        );
+      }
+    }, [loading]);
+
     return (
       <TouchableOpacity
         {...props}
@@ -38,21 +76,34 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
           },
           style,
         ]}
+        disabled={loading || disabled}
         ref={ref}
       >
         <View style={{ padding: 16, flexDirection: "row" }}>
-          <View
+          <Animated.View
             style={{
               width: 48,
               height: 48,
-              borderWidth: 1,
+              borderWidth: loading ? 0 : 1,
               borderColor: colors.grayscale[100],
               borderRadius: 6,
+              opacity: loading ? opacity : 1,
+              backgroundColor: loading ? colors.grayscale[800] : undefined,
             }}
-          ></View>
+          ></Animated.View>
           <View style={{ flex: 1, paddingHorizontal: 12, alignSelf: "center" }}>
-            <Text font="Roboto_700Bold">{title}</Text>
-            <Text style={{ color: colors.grayscale[700], marginTop: 6 }}>
+            <Text
+              font="Roboto_700Bold"
+              placeholderWidth={148}
+              loading={loading}
+            >
+              {title}
+            </Text>
+            <Text
+              style={{ color: colors.grayscale[700], marginTop: 6 }}
+              placeholderWidth={96}
+              loading={loading}
+            >
               {subtitle}
             </Text>
           </View>
@@ -62,7 +113,11 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
             displayType="text"
             prefix="Rp"
             renderText={(value) => (
-              <Text style={{ color: colors.orange[600], marginTop: 4 }}>
+              <Text
+                style={{ color: colors.orange[600], marginTop: 4 }}
+                placeholderWidth={72}
+                loading={loading}
+              >
                 {value}
               </Text>
             )}
@@ -78,7 +133,11 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
             alignItems: "center",
           }}
         >
-          <Text style={{ color: colors.grayscale[600] }}>
+          <Text
+            style={{ color: colors.grayscale[600] }}
+            placeholderWidth={52}
+            loading={loading}
+          >
             {date?.format("HH:mm")}
           </Text>
           <Text
@@ -86,11 +145,15 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
             style={{
               color: statusColors[status || "PENDING"].color,
               marginLeft: "auto",
-              backgroundColor: statusColors[status || "PENDING"].background,
+              backgroundColor: loading
+                ? undefined
+                : statusColors[status || "PENDING"].background,
               padding: 2,
-              paddingHorizontal: 6,
+              paddingHorizontal: loading ? 0 : 6,
               borderRadius: 2,
             }}
+            placeholderWidth={86}
+            loading={loading}
           >
             {status === "SUCCEED"
               ? "Berhasil"

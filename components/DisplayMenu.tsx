@@ -25,6 +25,18 @@ const DisplayMenu = forwardRef<View, DisplayMenuProps>(
     >
       <View style={[{ backgroundColor }, styles.item]}>
         <Icon />
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderWidth: 1,
+            borderRadius: 58 / 2,
+            opacity: 0.1,
+          }}
+        ></View>
       </View>
       <Text size="small" style={{ marginTop: 8 }}>
         {title}
@@ -44,6 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 64 / 2,
     justifyContent: "center",
     alignItems: "center",
+    position: "relative",
   },
 });
 

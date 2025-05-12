@@ -32,6 +32,10 @@ export default function Receipt() {
     if (purchaseQuery.data) {
       queryClient.invalidateQueries({ queryKey: ["purchaseDetail"] });
     }
+
+    return () => {
+      queryClient.removeQueries({ queryKey: ["purchaseDetail"] });
+    };
   }, [param.id]);
 
   return (
@@ -64,6 +68,7 @@ export default function Receipt() {
               font="Nunito_800ExtraBold"
               size="extraLarge"
               style={{ paddingTop: 25 }}
+              loading={purchaseQuery.isLoading}
             >
               Transaksi{" "}
               {purchaseQuery.data?.status === "SUCCESS"
@@ -72,7 +77,11 @@ export default function Receipt() {
                 ? "Gagal"
                 : "Tertunda"}
             </Text>
-            <Text font="Roboto_400Regular">
+            <Text
+              font="Roboto_400Regular"
+              loading={purchaseQuery.isLoading}
+              placeholderWidth={96}
+            >
               {moment(purchaseQuery.data?.createdAt).format(
                 "DD MMMM YYYY HH:mm"
               )}
@@ -87,6 +96,8 @@ export default function Receipt() {
                   font="Roboto_800ExtraBold"
                   size="extraLarge"
                   style={{ paddingVertical: 20 }}
+                  loading={purchaseQuery.isLoading}
+                  placeholderWidth={128}
                 >
                   {value}
                 </Text>
@@ -108,16 +119,32 @@ export default function Receipt() {
               paddingHorizontal: 6,
             }}
           >
-            <InfoList style={{ paddingVertical: 8 }} title="Produk">
+            <InfoList
+              loading={purchaseQuery.isLoading}
+              style={{ paddingVertical: 8 }}
+              title="Produk"
+            >
               {purchaseQuery.data?.name}
             </InfoList>
-            <InfoList style={{ paddingVertical: 8 }} title="No. Invoice">
+            <InfoList
+              loading={purchaseQuery.isLoading}
+              style={{ paddingVertical: 8 }}
+              title="No. Invoice"
+            >
               {purchaseQuery.data?.invoiceNumber}
             </InfoList>
-            <InfoList style={{ paddingVertical: 8 }} title="SN">
+            <InfoList
+              loading={purchaseQuery.isLoading}
+              style={{ paddingVertical: 8 }}
+              title="SN"
+            >
               {purchaseQuery.data?.details.serialNumber}
             </InfoList>
-            <InfoList style={{ paddingVertical: 8 }} title="No. Tujuan">
+            <InfoList
+              loading={purchaseQuery.isLoading}
+              style={{ paddingVertical: 8 }}
+              title="No. Tujuan"
+            >
               {purchaseQuery.data?.customerNumber}
             </InfoList>
           </View>
@@ -139,6 +166,7 @@ export default function Receipt() {
                 <AntDesign name="sharealt" color={colors.primary[500]} />
               )}
               appearance="rounded-outlined"
+              loading={purchaseQuery.isLoading}
             >
               Bagikan
             </MiniButton>
@@ -147,6 +175,7 @@ export default function Receipt() {
                 <AntDesign name="printer" color={colors.primary[500]} />
               )}
               appearance="rounded-outlined"
+              loading={purchaseQuery.isLoading}
             >
               Cetak
             </MiniButton>
@@ -155,6 +184,7 @@ export default function Receipt() {
                 <AntDesign name="customerservice" color={colors.primary[500]} />
               )}
               appearance="rounded-outlined"
+              loading={purchaseQuery.isLoading}
             >
               Bantuan
             </MiniButton>

@@ -8,13 +8,22 @@ type Props = {
   children?: string;
   leftAccessory?: FC;
   divider?: boolean;
+  loading?: boolean;
 };
 
 export type InfoListProps = Props & Omit<ViewProps, keyof Props>;
 
 const InfoList = forwardRef<View, InfoListProps>(
   (
-    { children, leftAccessory: LeftAccessory, title, style, divider, ...props },
+    {
+      children,
+      leftAccessory: LeftAccessory,
+      title,
+      style,
+      divider,
+      loading,
+      ...props
+    },
     ref
   ) => (
     <View
@@ -31,7 +40,7 @@ const InfoList = forwardRef<View, InfoListProps>(
       ]}
       ref={ref}
     >
-      {LeftAccessory && (
+      {LeftAccessory && !loading && (
         <View
           style={{
             marginRight: 16,
@@ -48,8 +57,20 @@ const InfoList = forwardRef<View, InfoListProps>(
           justifyContent: "space-between",
         }}
       >
-        {title && <Text>{title}</Text>}
-        {children && <Text style={{ textAlign: "right" }}>{children}</Text>}
+        {title && (
+          <Text placeholderWidth={86} loading={loading}>
+            {title}
+          </Text>
+        )}
+        {children && (
+          <Text
+            placeholderWidth={120}
+            loading={loading}
+            style={{ textAlign: "right" }}
+          >
+            {children}
+          </Text>
+        )}
       </View>
     </View>
   )

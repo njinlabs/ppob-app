@@ -17,7 +17,10 @@ export default function History() {
 
   return (
     <FlatList
-      data={historiesQuery.data?.reduce((current, history, index) => {
+      data={(!historiesQuery.data && historiesQuery.isLoading
+        ? (Array(4).fill({}) as unknown as Required<typeof historiesQuery.data>)
+        : historiesQuery.data
+      )?.reduce((current, history, index) => {
         const last = current.length ? current[current.length - 1] : null;
 
         current.push({
@@ -41,7 +44,11 @@ export default function History() {
           tintColor={colors.primary[200]}
         />
       }
-      style={{ flex: 1, backgroundColor: colors.grayscale[50] }}
+      style={{
+        flex: 1,
+        backgroundColor: colors.grayscale[50],
+      }}
+      contentContainerStyle={{ paddingBottom: 24 }}
       keyExtractor={(_, index) => `${index}`}
       renderItem={({ item }) => {
         const date = moment(item.createdAt);
@@ -55,7 +62,7 @@ export default function History() {
                   backgroundColor: colors.grayscale[100],
                 }}
               >
-                <Text style={{ color: colors.primary[700] }}>
+                <Text loading={!item.id} style={{ color: colors.primary[700] }}>
                   {date.format("DD MMMM YYYY")}
                 </Text>
               </View>
@@ -73,6 +80,7 @@ export default function History() {
                   subtitle={item.customerNumber}
                   total={item.total}
                   date={date}
+                  loading={!item.id}
                 />
               </Link>
             </View>

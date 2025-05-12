@@ -38,7 +38,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.grayscale[50] }}>
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
       <View
         style={{
           paddingTop: (StatusBar.currentHeight || 48) + 16,
@@ -135,6 +135,8 @@ export default function Dashboard() {
                 size="large"
                 font="Roboto_800ExtraBold"
                 style={{ marginBottom: 16 }}
+                loading={walletQuery.isLoading}
+                placeholderWidth={160}
               >
                 {value}
               </Text>
@@ -150,6 +152,8 @@ export default function Dashboard() {
                   color={colors.white}
                 />
               )}
+              loading={walletQuery.isLoading}
+              placeholderWidth={96}
             >
               Deposit
             </MiniButton>
@@ -161,6 +165,8 @@ export default function Dashboard() {
                   color={colors.white}
                 />
               )}
+              loading={walletQuery.isLoading}
+              placeholderWidth={96}
             >
               Mutasi
             </MiniButton>
