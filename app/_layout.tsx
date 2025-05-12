@@ -4,9 +4,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import moment from "moment";
+import "moment/locale/id";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
+moment.locale("id");
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();

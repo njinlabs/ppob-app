@@ -14,7 +14,14 @@ export type MenuListProps = Props & Omit<TouchableOpacityProps, keyof Props>;
 
 const MenuList = forwardRef<View, MenuListProps>(
   (
-    { children, leftAccessory: LeftAccessory, rightAccessory: RightAccessory, style, divider, ...props },
+    {
+      children,
+      leftAccessory: LeftAccessory,
+      rightAccessory: RightAccessory,
+      style,
+      divider,
+      ...props
+    },
     ref
   ) => (
     <TouchableOpacity
@@ -43,20 +50,18 @@ const MenuList = forwardRef<View, MenuListProps>(
         </View>
       )}
 
+      {children && <Text style={{ flex: 1 }}>{children}</Text>}
+
       {RightAccessory && (
         <View
           style={{
-            marginRight: 10,
+            marginLeft: 16,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <RightAccessory />
         </View>
-      )}
-
-      {children && (
-        <Text style={{ flex: 1 }}>{children}</Text>
       )}
     </TouchableOpacity>
   )

@@ -5,9 +5,21 @@ export default function TransactionLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="pulsa-and-data"
+        name="confirmation"
         options={{
-          title: "Pulsa & Paket Data",
+          title: "Konfirmasi Pembelian",
+          header: ({ navigation, options }) => (
+            <ActionBar
+              title={options.title}
+              back={navigation.canGoBack() ? navigation.goBack : undefined}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="receipt"
+        options={{
+          title: "E-Receipt",
           header: ({ navigation, options }) => (
             <ActionBar
               title={options.title}

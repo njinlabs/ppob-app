@@ -29,7 +29,7 @@ const BlockedButton = forwardRef<View, BlockedButtonProps>(
         ]}
       >
         <Text
-          font="Nunito_700Bold"
+          font="Nunito_800ExtraBold"
           style={{
             color: colors.white,
           }}

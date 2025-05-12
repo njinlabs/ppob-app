@@ -1,13 +1,13 @@
 import ActionBar from "@/components/ActionBar";
 import { Stack } from "expo-router";
 
-export default function ConfirmationLayout() {
+export default function ProductLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="e-receipt"
+        name="pulsa-and-data"
         options={{
-          title: "E-Receipt",
+          title: "Pulsa & Paket Data",
           header: ({ navigation, options }) => (
             <ActionBar
               title={options.title}

@@ -3,17 +3,20 @@ import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
+import { getWallet } from "@/api/wallet";
 import Logo from "@/assets/svgs/logo";
 import DisplayMenu from "@/components/DisplayMenu";
 import MiniButton from "@/components/MiniButton";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { paymentMenuList } from "@/constants/PaymentMenuList";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import {
   Dimensions,
   FlatList,
   Image,
+  RefreshControl,
   StatusBar,
   StyleSheet,
   View,
@@ -22,6 +25,12 @@ import PagerView from "react-native-pager-view";
 import { NumericFormat } from "react-number-format";
 
 export default function Dashboard() {
+  const queryClient = useQueryClient();
+  const walletQuery = useQuery({
+    queryKey: ["wallet"],
+    queryFn: () => getWallet(),
+  });
+
   const images = [
     "https://placehold.co/600x400/png",
     "https://placehold.co/600x400/png",
@@ -117,7 +126,7 @@ export default function Dashboard() {
             </View>
           </View>
           <NumericFormat
-            value={24321900}
+            value={walletQuery.data?.balance}
             displayType="text"
             thousandSeparator=","
             prefix="Rp"
@@ -161,7 +170,7 @@ export default function Dashboard() {
       <FlatList
         data={paymentMenuList}
         renderItem={({ item: { title, icon: Icon, color } }) => (
-          <Link href="/(private)/transaction/pulsa-and-data" asChild>
+          <Link href="/(private)/product/pulsa-and-data" asChild>
             <DisplayMenu
               color={color}
               title={title}
@@ -169,6 +178,17 @@ export default function Dashboard() {
             />
           </Link>
         )}
+        refreshControl={
+          <RefreshControl
+            refreshing={walletQuery.isRefetching}
+            onRefresh={() =>
+              queryClient.invalidateQueries({
+                queryKey: ["wallet"],
+              })
+            }
+            tintColor={colors.primary[200]}
+          />
+        }
         style={{ flex: 1 }}
         keyExtractor={(_, key) => `${key}`}
         ListHeaderComponent={
