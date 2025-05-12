@@ -42,6 +42,7 @@ export default function Private() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="transaction" options={{ headerShown: false }} />
       <Stack.Screen name="confirmation" options={{ headerShown: false }} />
+      <Stack.Screen name="receipt" options={{ headerShown: false }} />
     </Stack>
   );
 }
