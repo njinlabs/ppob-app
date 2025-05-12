@@ -10,7 +10,7 @@ import {
 import Text from "./Text";
 
 const coloring = ["primary"] as const;
-const appearance = ["rounded"] as const;
+const appearance = ["rounded", "rounded-outlined"] as const;
 
 const styles: Record<
   (typeof appearance)[number],
@@ -41,6 +41,27 @@ const styles: Record<
       coloring: {
         primary: {
           color: colors.white,
+        },
+      },
+    },
+  },
+  "rounded-outlined": {
+    wrapperStyle: {
+      base: {
+        borderRadius: 36 / 2,
+        borderWidth: 1,
+      },
+      coloring: {
+        primary: {
+          borderColor: colors.primary[500],
+        },
+      },
+    },
+    textStyle: {
+      base: {},
+      coloring: {
+        primary: {
+          color: colors.primary[500],
         },
       },
     },

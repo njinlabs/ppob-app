@@ -25,3 +25,12 @@ export const purchaseHistory = (): Promise<
     product?: ProductModel | null;
   })[]
 > => client.get("/purchase/history").then(({ data }) => data.data);
+
+export const getPurchaseById = (
+  payload: string
+): Promise<
+  PurchaseModel & {
+    user?: UserModel | null;
+    product?: ProductModel | null;
+  }
+> => client.get(`/purchase/${payload}`).then(({ data }) => data.data);

@@ -4,6 +4,7 @@ import PurchaseList from "@/components/PurchaseList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "expo-router";
 import moment from "moment";
 import { FlatList, RefreshControl, View } from "react-native";
 
@@ -60,12 +61,20 @@ export default function History() {
               </View>
             )}
             <View style={{ paddingHorizontal: 22, marginTop: 12 }}>
-              <PurchaseList
-                title={item.name}
-                subtitle={item.customerNumber}
-                total={item.total}
-                date={date}
-              />
+              <Link
+                href={{
+                  pathname: "/(private)/transaction/receipt",
+                  params: { id: item.id },
+                }}
+                asChild
+              >
+                <PurchaseList
+                  title={item.name}
+                  subtitle={item.customerNumber}
+                  total={item.total}
+                  date={date}
+                />
+              </Link>
             </View>
           </>
         );

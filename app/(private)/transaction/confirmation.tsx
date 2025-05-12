@@ -5,11 +5,12 @@ import InfoList from "@/components/InfoList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router/build/hooks";
+import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
 import { ScrollView, View } from "react-native";
 import { NumericFormat } from "react-number-format";
 
 export default function Confirmation() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const param = useLocalSearchParams<{
     productId: string;
@@ -23,9 +24,15 @@ export default function Confirmation() {
 
   const purchaseMutation = useMutation({
     mutationFn: makePurchase,
-    onSuccess: () => {
+    onSuccess: ({ id }) => {
       queryClient.invalidateQueries({
         queryKey: ["wallet", "purchaseHistories"],
+      });
+
+      router.dismissAll();
+      router.navigate({
+        pathname: "/(private)/transaction/receipt",
+        params: { id },
       });
     },
   });

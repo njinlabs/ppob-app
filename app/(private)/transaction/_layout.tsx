@@ -16,6 +16,18 @@ export default function TransactionLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="receipt"
+        options={{
+          title: "E-Receipt",
+          header: ({ navigation, options }) => (
+            <ActionBar
+              title={options.title}
+              back={navigation.canGoBack() ? navigation.goBack : undefined}
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }
