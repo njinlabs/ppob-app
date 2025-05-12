@@ -29,6 +29,7 @@ type Props = {
   size?: keyof typeof sizing;
   loading?: boolean;
   placeholderWidth?: number;
+  placeholderColumn?: number;
 };
 
 export type TextProps = Props & Omit<Base, keyof Props>;
@@ -40,6 +41,7 @@ export default function Text({
   style,
   loading,
   placeholderWidth = Dimensions.get("screen").width / 2,
+  placeholderColumn = 1,
   ...props
 }: TextProps) {
   const opacity = useSharedValue<number>(0.3);
@@ -62,18 +64,27 @@ export default function Text({
 
   if (loading)
     return (
-      <View style={[{ marginVertical: 2 }, style as ViewStyle]}>
-        <Animated.View
-          style={[
-            {
-              height: sizing[size] + 2,
-              backgroundColor: colors.grayscale[800],
-              opacity,
-              width: placeholderWidth,
-              borderRadius: 4,
-            },
-          ]}
-        />
+      <View style={style as ViewStyle}>
+        {Array(placeholderColumn)
+          .fill(null)
+          .map((_, index) => (
+            <Animated.View
+              key={index}
+              style={[
+                {
+                  height: sizing[size] + 2,
+                  backgroundColor: colors.grayscale[800],
+                  opacity,
+                  width:
+                    index === placeholderColumn - 1 && index > 0
+                      ? placeholderWidth / 2
+                      : placeholderWidth,
+                  borderRadius: 4,
+                  marginVertical: 2,
+                },
+              ]}
+            />
+          ))}
       </View>
     );
 

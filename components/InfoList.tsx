@@ -58,18 +58,24 @@ const InfoList = forwardRef<View, InfoListProps>(
         }}
       >
         {title && (
-          <Text placeholderWidth={86} loading={loading}>
+          <Text
+            placeholderWidth={86}
+            loading={loading}
+            style={{ lineHeight: 20 }}
+          >
             {title}
           </Text>
         )}
         {children && (
-          <Text
-            placeholderWidth={120}
-            loading={loading}
-            style={{ textAlign: "right" }}
-          >
-            {children}
-          </Text>
+          <View style={{ flex: 1, maxWidth: "70%" }}>
+            <Text
+              placeholderWidth={120}
+              loading={loading}
+              style={{ textAlign: "right", lineHeight: 20 }}
+            >
+              {children}
+            </Text>
+          </View>
         )}
       </View>
     </View>

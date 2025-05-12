@@ -90,9 +90,13 @@ export default function PulsaAndData() {
       </View>
       <View style={{ flex: 1, position: "relative" }}>
         <FlatList
-          data={productQuery.data?.filter((item) =>
-            item.category?.name.includes("Pulsa")
-          )}
+          data={
+            productQuery.isFetching
+              ? Array(9).fill({})
+              : productQuery.data?.filter((item) =>
+                  item.category?.name.includes("Pulsa")
+                )
+          }
           keyExtractor={(_item, key) => `${key}`}
           contentContainerStyle={{
             padding: 22,
@@ -113,17 +117,24 @@ export default function PulsaAndData() {
           }}
           renderItem={({ item }) => (
             <PulsaList
+              loading={productQuery.isFetching}
               onPress={() => onSelectProduct(item.id)}
-              value={Number(item.name.split(" ").pop()?.replace(/\D/g, ""))}
+              value={Number(
+                (item.name || "").split(" ").pop()?.replace(/\D/g, "")
+              )}
               price={item.price}
               style={{ width: Dimensions.get("screen").width / 2 - 8 - 22 }}
             />
           )}
         />
         <FlatList
-          data={productQuery.data?.filter((item) =>
-            item.category?.name.includes("Data")
-          )}
+          data={
+            productQuery.isFetching
+              ? Array(9).fill({})
+              : productQuery.data?.filter((item) =>
+                  item.category?.name.includes("Data")
+                )
+          }
           keyExtractor={(_item, key) => `${key}`}
           contentContainerStyle={{
             padding: 22,
@@ -139,6 +150,8 @@ export default function PulsaAndData() {
           }}
           renderItem={({ item }) => (
             <DataList
+              onPress={() => onSelectProduct(item.id)}
+              loading={productQuery.isFetching}
               name={item.name}
               price={item.price}
               style={{ marginBottom: 16 }}
