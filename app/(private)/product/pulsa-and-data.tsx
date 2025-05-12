@@ -6,17 +6,19 @@ import TextInput from "@/components/TextInput";
 import { colors } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Dimensions, FlatList, View } from "react-native";
 
 export default function PulsaAndData() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [tab, setTab] = useState<"Pulsa" | "Paket Data">("Pulsa");
 
-  const { watch, control } = useForm({
+  const { watch, control, handleSubmit } = useForm({
     defaultValues: {
-      phone: "",
+      customerNumber: "",
     },
   });
 
@@ -32,17 +34,26 @@ export default function PulsaAndData() {
 
   const getBrandMutation = useMutation({
     mutationFn: getBrandByPhone,
-    onError: (e) => console.log(e),
   });
 
+  const onSelectProduct = (productId: string) =>
+    handleSubmit(({ customerNumber }) => {
+      router.navigate({
+        pathname: "/(private)/transaction/confirmation",
+        params: {
+          customerNumber,
+          productId,
+        },
+      });
+    })();
+
   useEffect(() => {
-    if (watch("phone").length >= 8 && !getBrandMutation.data) {
-      getBrandMutation.mutate(watch("phone"));
-    } else if (watch("phone").length < 8 && getBrandMutation.data) {
-      console.log("CLEARING");
+    if (watch("customerNumber").length >= 8 && !getBrandMutation.data) {
+      getBrandMutation.mutate(watch("customerNumber"));
+    } else if (watch("customerNumber").length < 8 && getBrandMutation.data) {
       getBrandMutation.reset();
     }
-  }, [watch("phone")]);
+  }, [watch("customerNumber")]);
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -56,7 +67,7 @@ export default function PulsaAndData() {
         >
           <Controller
             control={control}
-            name="phone"
+            name="customerNumber"
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
               <TextInput
@@ -102,6 +113,7 @@ export default function PulsaAndData() {
           }}
           renderItem={({ item }) => (
             <PulsaList
+              onPress={() => onSelectProduct(item.id)}
               value={Number(item.name.split(" ").pop()?.replace(/\D/g, ""))}
               price={item.price}
               style={{ width: Dimensions.get("screen").width / 2 - 8 - 22 }}

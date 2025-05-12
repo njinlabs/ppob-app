@@ -1,3 +1,5 @@
+import { Base } from "./base";
+
 export type ProductModel = {
   id: string;
   name: string;
@@ -9,4 +11,4 @@ export type ProductModel = {
   price: number;
   brandId: string | null;
   categoryId: string | null;
-};
+} & Base;

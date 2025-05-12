@@ -5,9 +5,9 @@ export default function TransactionLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="pulsa-and-data"
+        name="confirmation"
         options={{
-          title: "Pulsa & Paket Data",
+          title: "Konfirmasi Pembelian",
           header: ({ navigation, options }) => (
             <ActionBar
               title={options.title}

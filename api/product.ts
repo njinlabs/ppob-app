@@ -26,3 +26,12 @@ export const getProduct = (
       params: payload,
     })
     .then(({ data }) => data.data);
+
+export const getProductById = (
+  payload: string
+): Promise<
+  ProductModel & {
+    category: CategoryModel | null;
+    brand: BrandModel | null;
+  }
+> => client.get(`/product/${payload}`).then(({ data }) => data.data);

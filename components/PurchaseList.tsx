@@ -1,4 +1,5 @@
 import { colors } from "@/constants/Colors";
+import { Moment } from "moment";
 import { forwardRef } from "react";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { NumericFormat } from "react-number-format";
@@ -11,6 +12,7 @@ type Props = {
   subtitle?: string;
   total?: number;
   status?: Status;
+  date?: Moment;
 };
 
 const statusColors: Record<Status, { background: string; color: string }> = {
@@ -23,7 +25,7 @@ export type PurchaseListProps = Props &
   Omit<TouchableOpacityProps, keyof Props>;
 
 const PurchaseList = forwardRef<View, PurchaseListProps>(
-  ({ style, title, subtitle, total, status, ...props }, ref) => {
+  ({ style, title, subtitle, total, status, date, ...props }, ref) => {
     return (
       <TouchableOpacity
         {...props}
@@ -76,7 +78,9 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
             alignItems: "center",
           }}
         >
-          <Text style={{ color: colors.grayscale[600] }}>16.03</Text>
+          <Text style={{ color: colors.grayscale[600] }}>
+            {date?.format("HH:mm")}
+          </Text>
           <Text
             size="small"
             style={{

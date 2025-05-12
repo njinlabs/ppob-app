@@ -1,3 +1,5 @@
+import { Base } from "./base";
+
 export type UserModel = {
   id: string;
   fullname: string;
@@ -7,4 +9,4 @@ export type UserModel = {
   referralCode: string;
   referredById: string;
   membershipId: string;
-};
+} & Base;
