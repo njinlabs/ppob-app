@@ -1,5 +1,5 @@
 import { colors } from "@/constants/Colors";
-import { FC, forwardRef } from "react";
+import { FC, forwardRef, useEffect } from "react";
 import {
   TextStyle,
   TouchableOpacity,
@@ -7,6 +7,12 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 import Text from "./Text";
 
 const coloring = ["primary"] as const;
@@ -73,6 +79,8 @@ type Props = {
   appearance?: (typeof appearance)[number];
   color?: (typeof coloring)[number];
   leftAccesorry?: FC;
+  loading?: boolean;
+  placeholderWidth?: number;
 };
 
 export type MiniButtonProps = Props & Omit<TouchableOpacityProps, keyof Props>;
@@ -85,40 +93,82 @@ const MiniButton = forwardRef<View, MiniButtonProps>(
       color = "primary",
       appearance = "rounded",
       style,
+      loading,
+      placeholderWidth = 86,
       ...props
     },
     ref
-  ) => (
-    <TouchableOpacity
-      {...props}
-      style={[
-        {
-          flexDirection: "row",
-          height: 36,
-          alignItems: "center",
-          justifyContent: "center",
-          paddingHorizontal: 14,
-        },
-        styles[appearance].wrapperStyle.base,
-        styles[appearance].wrapperStyle.coloring[color],
-        style,
-      ]}
-      ref={ref}
-    >
-      {LeftAccessory && (
-        <View style={{ marginRight: 6 }}>
-          <LeftAccessory />
-        </View>
-      )}
-      <Text
-        font="Nunito_600SemiBold"
-        size="small"
-        style={styles[appearance].textStyle.coloring[color]}
+  ) => {
+    const opacity = useSharedValue<number>(0.3);
+
+    useEffect(() => {
+      if (loading) {
+        opacity.value = withRepeat(
+          withSequence(
+            withTiming(0.1, {
+              duration: 750,
+            }),
+            withTiming(0.3, {
+              duration: 750,
+            })
+          ),
+          -1
+        );
+      }
+    }, [loading]);
+
+    if (loading)
+      return (
+        <Animated.View
+          style={[
+            {
+              width: placeholderWidth,
+              flexDirection: "row",
+              height: 36,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingHorizontal: 14,
+              backgroundColor: colors.grayscale[800],
+              opacity,
+            },
+            styles[appearance].wrapperStyle.base,
+            style,
+          ]}
+        />
+      );
+
+    return (
+      <TouchableOpacity
+        {...props}
+        style={[
+          {
+            flexDirection: "row",
+            height: 36,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingHorizontal: 14,
+          },
+          styles[appearance].wrapperStyle.base,
+          styles[appearance].wrapperStyle.coloring[color],
+          style,
+        ]}
+        ref={ref}
       >
-        {children}
-      </Text>
-    </TouchableOpacity>
-  )
+        {LeftAccessory && (
+          <View style={{ marginRight: 6 }}>
+            <LeftAccessory />
+          </View>
+        )}
+        <Text
+          font="Nunito_600SemiBold"
+          size="small"
+          style={styles[appearance].textStyle.coloring[color]}
+        >
+          {children}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
 );
 
 export default MiniButton;

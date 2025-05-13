@@ -7,12 +7,13 @@ import Text from "./Text";
 type Props = {
   name?: string;
   price?: number;
+  loading?: boolean;
 };
 
 export type DataListProps = Props & Omit<TouchableOpacityProps, keyof Props>;
 
 const DataList = forwardRef<View, DataListProps>(
-  ({ name, price, style, ...props }, ref) => {
+  ({ name, price, style, loading, disabled, ...props }, ref) => {
     return (
       <TouchableOpacity
         {...props}
@@ -27,6 +28,7 @@ const DataList = forwardRef<View, DataListProps>(
           },
           style,
         ]}
+        disabled={loading || disabled}
         ref={ref}
       >
         <View
@@ -39,14 +41,20 @@ const DataList = forwardRef<View, DataListProps>(
             justifyContent: "center",
           }}
         >
-          <Text size="small">Harga</Text>
+          <Text size="small" loading={loading} placeholderWidth={36}>
+            Harga
+          </Text>
           <NumericFormat
             value={price}
             thousandSeparator=","
             prefix="Rp"
             displayType="text"
             renderText={(value) => (
-              <Text style={{ color: colors.primary[500], marginTop: 4 }}>
+              <Text
+                loading={loading}
+                placeholderWidth={52}
+                style={{ color: colors.primary[500], marginTop: 4 }}
+              >
                 {value}
               </Text>
             )}
@@ -60,7 +68,14 @@ const DataList = forwardRef<View, DataListProps>(
             paddingVertical: 16,
           }}
         >
-          <Text font="Nunito_700Bold">{name}</Text>
+          <Text
+            font="Nunito_700Bold"
+            loading={loading}
+            placeholderWidth={160}
+            placeholderColumn={2}
+          >
+            {name}
+          </Text>
         </View>
       </TouchableOpacity>
     );

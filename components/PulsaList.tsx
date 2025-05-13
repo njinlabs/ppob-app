@@ -7,12 +7,13 @@ import Text from "./Text";
 type Props = {
   value?: number;
   price?: number;
+  loading?: boolean;
 };
 
 export type PulsaListProps = Props & Omit<TouchableOpacityProps, keyof Props>;
 
 const PulsaList = forwardRef<View, PulsaListProps>(
-  ({ value, price, style, ...props }, ref) => {
+  ({ value, price, style, loading, disabled, ...props }, ref) => {
     return (
       <TouchableOpacity
         {...props}
@@ -26,6 +27,7 @@ const PulsaList = forwardRef<View, PulsaListProps>(
           },
           style,
         ]}
+        disabled={loading || disabled}
         ref={ref}
       >
         <NumericFormat
@@ -33,12 +35,22 @@ const PulsaList = forwardRef<View, PulsaListProps>(
           thousandSeparator=","
           displayType="text"
           renderText={(value) => (
-            <Text font="Nunito_700Bold" size="large">
+            <Text
+              font="Nunito_700Bold"
+              size="large"
+              loading={loading}
+              placeholderWidth={72}
+            >
               {value}
             </Text>
           )}
         />
-        <Text style={{ marginTop: 12 }} size="small">
+        <Text
+          style={{ marginTop: 12 }}
+          size="small"
+          loading={loading}
+          placeholderWidth={38}
+        >
           Harga
         </Text>
         <NumericFormat
@@ -47,7 +59,11 @@ const PulsaList = forwardRef<View, PulsaListProps>(
           prefix="Rp"
           displayType="text"
           renderText={(value) => (
-            <Text style={{ color: colors.primary[500], marginTop: 4 }}>
+            <Text
+              style={{ color: colors.primary[500], marginTop: 4 }}
+              loading={loading}
+              placeholderWidth={48}
+            >
               {value}
             </Text>
           )}

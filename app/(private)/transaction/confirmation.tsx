@@ -74,6 +74,7 @@ export default function Confirmation() {
               style={{ justifyContent: "space-between" }}
               title="Kategori"
               divider
+              loading={productQuery.isLoading}
             >
               {productQuery.data?.category?.name}
             </InfoList>
@@ -81,6 +82,7 @@ export default function Confirmation() {
               style={{ justifyContent: "space-between" }}
               title="Brand"
               divider
+              loading={productQuery.isLoading}
             >
               {productQuery.data?.brand?.name}
             </InfoList>
@@ -88,12 +90,14 @@ export default function Confirmation() {
               style={{ justifyContent: "space-between" }}
               title="Produk"
               divider
+              loading={productQuery.isLoading}
             >
               {productQuery.data?.name}
             </InfoList>
             <InfoList
               style={{ justifyContent: "space-between" }}
               title="No. Tujuan"
+              loading={productQuery.isLoading}
             >
               {param.customerNumber}
             </InfoList>
@@ -121,7 +125,11 @@ export default function Confirmation() {
               prefix="Rp"
               displayType="text"
               renderText={(value) => (
-                <InfoList title="Harga" divider>
+                <InfoList
+                  title="Harga"
+                  divider
+                  loading={productQuery.isLoading}
+                >
                   {value}
                 </InfoList>
               )}
@@ -131,7 +139,11 @@ export default function Confirmation() {
               thousandSeparator=","
               prefix="Rp"
               displayType="text"
-              renderText={(value) => <InfoList title="Total">{value}</InfoList>}
+              renderText={(value) => (
+                <InfoList title="Total" loading={productQuery.isLoading}>
+                  {value}
+                </InfoList>
+              )}
             />
           </View>
         </View>
