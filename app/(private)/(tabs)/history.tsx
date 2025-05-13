@@ -81,6 +81,7 @@ export default function History() {
                   total={item.total}
                   date={date}
                   loading={!item.id}
+                  status={item.status}
                 />
               </Link>
             </View>
