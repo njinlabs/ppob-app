@@ -10,14 +10,20 @@ export type RegisterPayload = Required<
 export type LoginPayload = Required<Pick<UserModel, "email" | "password">>;
 
 export const register = (payload: RegisterPayload) =>
-  client.post("/auth/register", payload).then(
-    ({ data }) =>
-      data as {
-        data: UserModel & {
-          token: string;
-        };
-      }
-  );
+  client
+    .post("/auth/register", payload)
+    .then(
+      ({ data }) =>
+        data as {
+          data: UserModel & {
+            token: string;
+          };
+        }
+    )
+    .catch((e) => {
+      console.log(e);
+      throw e;
+    });
 
 export const login = (payload: LoginPayload) =>
   client.post("/auth/login", payload).then(

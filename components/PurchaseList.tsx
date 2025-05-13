@@ -1,3 +1,4 @@
+import { PurchaseModel } from "@/api/model/purchase";
 import { colors } from "@/constants/Colors";
 import { Moment } from "moment";
 import { forwardRef, useEffect } from "react";
@@ -11,20 +12,21 @@ import Animated, {
 import { NumericFormat } from "react-number-format";
 import Text from "./Text";
 
-type Status = "PENDING" | "SUCCEED" | "FAILED";
-
 type Props = {
   title?: string;
   subtitle?: string;
   total?: number;
-  status?: Status;
+  status?: PurchaseModel["status"];
   date?: Moment;
   loading?: boolean;
 };
 
-const statusColors: Record<Status, { background: string; color: string }> = {
+const statusColors: Record<
+  PurchaseModel["status"],
+  { background: string; color: string }
+> = {
   FAILED: { color: colors.danger[600], background: colors.danger[100] },
-  SUCCEED: { color: colors.success[600], background: colors.success[100] },
+  SUCCESS: { color: colors.success[600], background: colors.success[100] },
   PENDING: { color: colors.warning[700], background: colors.warning[200] },
 };
 
@@ -155,7 +157,7 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
             placeholderWidth={86}
             loading={loading}
           >
-            {status === "SUCCEED"
+            {status === "SUCCESS"
               ? "Berhasil"
               : status === "FAILED"
               ? "Gagal"

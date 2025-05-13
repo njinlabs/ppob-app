@@ -200,7 +200,7 @@ export default function Register() {
         </View>
       </ScrollView>
       <View style={{ padding: 24, backgroundColor: colors.white }}>
-        <BlockedButton disabled={registerMutation.isPending} onPress={onSubmit}>
+        <BlockedButton loading={registerMutation.isPending} onPress={onSubmit}>
           DAFTAR
         </BlockedButton>
       </View>

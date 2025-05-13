@@ -1,11 +1,13 @@
 import { logout } from "@/api/auth";
 import BlockedButton from "@/components/BlockedButton";
+import Dialog, { DialogRef } from "@/components/Dialog";
 import MenuList from "@/components/MenuList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { useAuth } from "@/stores/auth";
 import { AntDesign, Octicons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
+import { useRef } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -15,6 +17,7 @@ import {
 } from "react-native";
 
 export default function Account() {
+  const logoutDialog = useRef<DialogRef>(null);
   const user = useAuth((state) => state.user);
   const revoke = useAuth((state) => state.revoke);
 
@@ -220,12 +223,21 @@ export default function Account() {
           </MenuList>
         </View>
         <BlockedButton
-          onPress={() => logoutMutation.mutate()}
+          onPress={() => logoutDialog.current?.show()}
           style={{ margin: 22, backgroundColor: colors.danger[500] }}
         >
           Sign Out
         </BlockedButton>
       </ScrollView>
+      <Dialog
+        icon="danger"
+        ref={logoutDialog}
+        title="Kamu yakin?"
+        text="Kamu akan keluar dari akun ini"
+        confirmText="Ya, lanjutkan"
+        loading={logoutMutation.isPending}
+        onConfirm={() => logoutMutation.mutate()}
+      />
     </>
   );
 }
