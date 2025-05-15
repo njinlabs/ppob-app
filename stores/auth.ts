@@ -1,10 +1,15 @@
+import { MembershipModel } from "@/api/model/membership";
 import { UserModel } from "@/api/model/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 
 export interface AuthState {
   token: string | null;
-  user: UserModel | null;
+  user:
+    | (UserModel & {
+        membership?: MembershipModel | null;
+      })
+    | null;
   setUser: (user: UserModel) => void;
   setToken: (token: string, storage?: boolean) => void;
   revoke: () => void;

@@ -1,12 +1,12 @@
 import { colors } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { ActivityIndicator, Modal, View } from "react-native";
 import BlockedButton from "./BlockedButton";
 import Text from "./Text";
 
 const icons: Record<
-  "warning" | "danger",
+  "warning" | "danger" | "info" | "success",
   {
     icon: keyof typeof AntDesign.glyphMap;
     tintColor: string;
@@ -26,10 +26,23 @@ const icons: Record<
     shadowColor: colors.danger[300],
     iconColor: colors.white,
   },
+  info: {
+    icon: "infocirlceo",
+    tintColor: colors.info[500],
+    shadowColor: colors.info[300],
+    iconColor: colors.white,
+  },
+  success: {
+    icon: "checkcircleo",
+    tintColor: colors.success[500],
+    shadowColor: colors.success[300],
+    iconColor: colors.white,
+  },
 } as const;
 
 export type DialogRef = {
   show: () => void;
+  close: () => void;
 };
 
 export type DialogProps = {
@@ -38,20 +51,31 @@ export type DialogProps = {
   icon?: keyof typeof icons;
   confirmText?: string;
   onConfirm?: () => void;
+  onClose?: () => void;
   loading?: boolean;
 };
 
 const Dialog = forwardRef<DialogRef, DialogProps>(
-  ({ title, text, icon, confirmText, onConfirm, loading }, ref) => {
+  ({ title, text, icon, confirmText, onConfirm, loading, onClose }, ref) => {
     const [visible, setVisible] = useState(false);
+    const [state, setState] = useState();
 
     useImperativeHandle(
       ref,
       () => ({
         show: () => setVisible(true),
+        close: () => setVisible(false),
       }),
       []
     );
+
+    useEffect(() => {
+      if (visible && onClose) {
+        return () => {
+          onClose();
+        };
+      }
+    }, [visible]);
 
     return (
       <>

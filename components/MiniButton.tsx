@@ -79,6 +79,7 @@ type Props = {
   appearance?: (typeof appearance)[number];
   color?: (typeof coloring)[number];
   leftAccesorry?: FC;
+  rightAccesorry?: FC;
   loading?: boolean;
   placeholderWidth?: number;
 };
@@ -95,6 +96,7 @@ const MiniButton = forwardRef<View, MiniButtonProps>(
       style,
       loading,
       placeholderWidth = 86,
+      rightAccesorry: RightAccessory,
       ...props
     },
     ref
@@ -166,6 +168,11 @@ const MiniButton = forwardRef<View, MiniButtonProps>(
         >
           {children}
         </Text>
+        {RightAccessory && (
+          <View style={{ marginLeft: 6 }}>
+            <RightAccessory />
+          </View>
+        )}
       </TouchableOpacity>
     );
   }

@@ -7,6 +7,7 @@ import { colors } from "@/constants/Colors";
 import { useAuth } from "@/stores/auth";
 import { AntDesign, Octicons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
+import { Link } from "expo-router";
 import { useRef } from "react";
 import {
   Dimensions,
@@ -91,27 +92,29 @@ export default function Account() {
             </View>
           </View>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.white,
-                paddingVertical: 10,
-                paddingHorizontal: 16,
-                borderRadius: 20,
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: -2,
-              }}
-            >
-              <Octicons
-                name="credit-card"
-                size={14}
-                style={{ marginRight: 8 }}
-                color={colors.orange[600]}
-              />
-              <Text size="small" style={{ color: colors.orange[800] }}>
-                Lihat Membership
-              </Text>
-            </TouchableOpacity>
+            <Link href="/(private)/membership" asChild>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.white,
+                  paddingVertical: 10,
+                  paddingHorizontal: 16,
+                  borderRadius: 20,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginLeft: -2,
+                }}
+              >
+                <Octicons
+                  name="credit-card"
+                  size={14}
+                  style={{ marginRight: 8 }}
+                  color={colors.orange[600]}
+                />
+                <Text size="small" style={{ color: colors.orange[800] }}>
+                  Lihat Membership
+                </Text>
+              </TouchableOpacity>
+            </Link>
           </View>
         </View>
         <View

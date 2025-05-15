@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ppob-app",
+    "name": "MalPandu Indonesia",
     "slug": "ppob-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ppobapp",
+    "scheme": "mpid",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.malpanduindonesia.ppob"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4ae2c9ee-8c7e-4901-a404-2f741a631c02"
+      }
     }
   }
 }

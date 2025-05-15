@@ -10,8 +10,9 @@ import MiniButton from "@/components/MiniButton";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { paymentMenuList } from "@/constants/PaymentMenuList";
+import { useAuth } from "@/stores/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import {
   Dimensions,
   FlatList,
@@ -19,12 +20,14 @@ import {
   RefreshControl,
   StatusBar,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import PagerView from "react-native-pager-view";
 import { NumericFormat } from "react-number-format";
 
 export default function Dashboard() {
+  const user = useAuth((state) => state.user);
   const queryClient = useQueryClient();
   const walletQuery = useQuery({
     queryKey: ["wallet"],
@@ -36,6 +39,12 @@ export default function Dashboard() {
     "https://placehold.co/600x400/png",
     "https://placehold.co/600x400/png",
   ];
+
+  useFocusEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: ["wallet", "user"],
+    });
+  });
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -67,22 +76,24 @@ export default function Dashboard() {
         >
           <Logo width={0.3 * Dimensions.get("screen").width} />
 
-          <View style={styles.box}>
-            <Text
-              font="Nunito_800ExtraBold"
-              size="small"
-              style={{
-                color: colors.primary[600],
-              }}
-            >
-              Non Member
-            </Text>
-            <Entypo
-              name="chevron-right"
-              size={16}
-              color={colors.primary[600]}
-            />
-          </View>
+          <Link href="/(private)/membership" asChild>
+            <TouchableOpacity style={styles.box}>
+              <Text
+                font="Nunito_800ExtraBold"
+                size="small"
+                style={{
+                  color: colors.primary[600],
+                }}
+              >
+                {user?.membership?.name || "Non Member"}
+              </Text>
+              <Entypo
+                name="chevron-right"
+                size={16}
+                color={colors.primary[600]}
+              />
+            </TouchableOpacity>
+          </Link>
         </View>
         <View style={styles.card}>
           <View
