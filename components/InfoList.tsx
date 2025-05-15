@@ -55,6 +55,7 @@ const InfoList = forwardRef<View, InfoListProps>(
           flex: 1,
           flexDirection: "row",
           justifyContent: "space-between",
+          gap: 16,
         }}
       >
         {title && (
@@ -66,17 +67,13 @@ const InfoList = forwardRef<View, InfoListProps>(
             {title}
           </Text>
         )}
-        {children && (
-          <View style={{ flex: 1, maxWidth: "70%" }}>
-            <Text
-              placeholderWidth={120}
-              loading={loading}
-              style={{ textAlign: "right", lineHeight: 20 }}
-            >
-              {children}
-            </Text>
-          </View>
-        )}
+        <Text
+          placeholderWidth={120}
+          loading={loading}
+          style={{ textAlign: "right", lineHeight: 20 }}
+        >
+          {children}
+        </Text>
       </View>
     </View>
   )
