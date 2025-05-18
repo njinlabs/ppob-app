@@ -50,7 +50,7 @@ export default function History() {
       }}
       contentContainerStyle={{ paddingBottom: 24 }}
       keyExtractor={(_, index) => `${index}`}
-      renderItem={({ item }) => {
+      renderItem={({ item, index }) => {
         const date = moment(item.createdAt);
         return (
           <>
@@ -60,6 +60,7 @@ export default function History() {
                   paddingVertical: 12,
                   paddingHorizontal: 22,
                   backgroundColor: colors.grayscale[100],
+                  marginTop: index > 0 ? 16 : 0,
                 }}
               >
                 <Text loading={!item.id} style={{ color: colors.primary[700] }}>

@@ -1,3 +1,4 @@
+import ActionBar from "@/components/ActionBar";
 import { fonts } from "@/constants/Fonts";
 import { useAuth } from "@/stores/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -56,6 +57,18 @@ export default function RootLayout() {
           options={{
             title: "Auth",
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="coming-soon"
+          options={{
+            title: "Tunggu Dulu Ya!",
+            header: ({ navigation, options }) => (
+              <ActionBar
+                title={options.title}
+                back={navigation.canGoBack() ? navigation.goBack : undefined}
+              />
+            ),
           }}
         />
       </Stack>

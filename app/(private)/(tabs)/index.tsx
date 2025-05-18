@@ -3,6 +3,7 @@ import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
+import { getCategory } from "@/api/product";
 import { getWallet } from "@/api/wallet";
 import Logo from "@/assets/svgs/logo";
 import DisplayMenu from "@/components/DisplayMenu";
@@ -29,9 +30,14 @@ import { NumericFormat } from "react-number-format";
 export default function Dashboard() {
   const user = useAuth((state) => state.user);
   const queryClient = useQueryClient();
+
   const walletQuery = useQuery({
     queryKey: ["wallet"],
     queryFn: () => getWallet(),
+  });
+  const categoryQuery = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategory,
   });
 
   const images = [
@@ -132,7 +138,7 @@ export default function Dashboard() {
                 size="small"
                 style={{ color: colors.primary[600] }}
               >
-                1000 Poin
+                0 Poin
               </Text>
             </View>
           </View>
@@ -186,15 +192,32 @@ export default function Dashboard() {
       </View>
       <FlatList
         data={paymentMenuList}
-        renderItem={({ item: { title, icon: Icon, color } }) => (
-          <Link href="/(private)/product/pulsa-and-data" asChild>
-            <DisplayMenu
-              color={color}
-              title={title}
-              icon={() => <Icon size={40} />}
-            />
-          </Link>
-        )}
+        renderItem={({ item: { title, icon: Icon, color, href } }) => {
+          const category = categoryQuery.data?.find(
+            (el) => el.name === href.category
+          );
+
+          return (
+            <Link
+              href={
+                (href.path as any) || {
+                  pathname: "/(private)/product/generic",
+                  params: {
+                    id: category?.id,
+                    name: title,
+                  },
+                }
+              }
+              asChild
+            >
+              <DisplayMenu
+                color={color}
+                title={title}
+                icon={() => <Icon size={40} />}
+              />
+            </Link>
+          );
+        }}
         refreshControl={
           <RefreshControl
             refreshing={walletQuery.isRefetching}

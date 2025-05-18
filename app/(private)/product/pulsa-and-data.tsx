@@ -23,7 +23,7 @@ export default function PulsaAndData() {
   });
 
   const productQuery = useQuery({
-    queryKey: ["products"],
+    queryKey: ["pulsa-and-data"],
     queryFn: () => {
       if (!getBrandMutation.data?.id) {
         return [];
@@ -56,7 +56,7 @@ export default function PulsaAndData() {
   }, [watch("customerNumber")]);
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["products"] });
+    queryClient.invalidateQueries({ queryKey: ["pulsa-and-data"] });
   }, [getBrandMutation.data]);
 
   return (
