@@ -8,6 +8,7 @@ type Props = {
   leftAccessory?: FC;
   rightAccessory?: FC;
   divider?: boolean;
+  loading?: boolean;
 };
 
 export type MenuListProps = Props & Omit<TouchableOpacityProps, keyof Props>;
@@ -20,6 +21,7 @@ const MenuList = forwardRef<View, MenuListProps>(
       rightAccessory: RightAccessory,
       style,
       divider,
+      loading,
       ...props
     },
     ref
@@ -50,7 +52,9 @@ const MenuList = forwardRef<View, MenuListProps>(
         </View>
       )}
 
-      {children && <Text style={{ flex: 1 }}>{children}</Text>}
+      <Text style={{ flex: 1 }} loading={loading}>
+        {children}
+      </Text>
 
       {RightAccessory && (
         <View

@@ -35,3 +35,6 @@ export const getProductById = (
     brand: BrandModel | null;
   }
 > => client.get(`/product/${payload}`).then(({ data }) => data.data);
+
+export const getCategory = (): Promise<CategoryModel[]> =>
+  client.get("/product/category").then(({ data }) => data.data);

@@ -16,6 +16,28 @@ export default function ProductLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="generic"
+        options={{
+          header: ({ navigation, options }) => (
+            <ActionBar
+              title={options.title}
+              back={navigation.canGoBack() ? navigation.goBack : undefined}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="generic-purchase"
+        options={{
+          header: ({ navigation, options }) => (
+            <ActionBar
+              title={options.title}
+              back={navigation.canGoBack() ? navigation.goBack : undefined}
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }
