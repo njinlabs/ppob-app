@@ -1,5 +1,7 @@
 import { PurchaseModel } from "@/api/model/purchase";
 import { colors } from "@/constants/Colors";
+import { Feather } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { Moment } from "moment";
 import { forwardRef, useEffect } from "react";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
@@ -19,6 +21,8 @@ type Props = {
   status?: PurchaseModel["status"];
   date?: Moment;
   loading?: boolean;
+  image?: string;
+  icon?: keyof typeof Feather.glyphMap;
 };
 
 const statusColors: Record<
@@ -44,6 +48,8 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
       date,
       disabled,
       loading,
+      image,
+      icon,
       ...props
     },
     ref
@@ -87,12 +93,27 @@ const PurchaseList = forwardRef<View, PurchaseListProps>(
               width: 48,
               height: 48,
               borderWidth: loading ? 0 : 1,
-              borderColor: colors.grayscale[100],
+              borderColor: colors.grayscale[200],
               borderRadius: 6,
               opacity: loading ? opacity : 1,
               backgroundColor: loading ? colors.grayscale[800] : undefined,
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          ></Animated.View>
+          >
+            {image && !loading ? (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 32, height: 32, resizeMode: "contain" }}
+              />
+            ) : !loading ? (
+              <Feather
+                name={icon || "box"}
+                size={32}
+                color={colors.grayscale[700]}
+              />
+            ) : null}
+          </Animated.View>
           <View style={{ flex: 1, paddingHorizontal: 12, alignSelf: "center" }}>
             <Text
               font="Roboto_700Bold"

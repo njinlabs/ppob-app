@@ -1,7 +1,7 @@
 import { ProductModel } from "@/api/model/product";
 import { getProduct } from "@/api/product";
 import DataList from "@/components/DataList";
-import TextInput from "@/components/TextInput";
+import TextInput, { TextInputProps } from "@/components/TextInput";
 import { colors } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +15,8 @@ export default function GenericPurchase() {
   const param = useLocalSearchParams<{
     id: string;
     name: string;
-    customerNumberLabel: string;
+    label: string;
+    inputType: string;
   }>();
   const navigation = useNavigation();
   const router = useRouter();
@@ -36,7 +37,6 @@ export default function GenericPurchase() {
       router.navigate({
         pathname: "/(private)/transaction/confirmation",
         params: {
-          customerNumberLabel: param.customerNumberLabel,
           customerNumber,
           productId,
         },
@@ -67,9 +67,10 @@ export default function GenericPurchase() {
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
               <TextInput
-                label={param.customerNumberLabel}
+                label={param.label}
                 value={value}
                 onChangeText={onChange}
+                keyboardType={param.inputType as TextInputProps["keyboardType"]}
                 leftAccessory={() => (
                   <AntDesign name="user" size={20} color={colors.orange[600]} />
                 )}

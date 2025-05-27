@@ -43,6 +43,8 @@ export default function Private() {
       <Stack.Screen name="transaction" options={{ headerShown: false }} />
       <Stack.Screen name="product" options={{ headerShown: false }} />
       <Stack.Screen name="membership" options={{ headerShown: false }} />
+      <Stack.Screen name="setting" options={{ headerShown: false }} />
+      <Stack.Screen name="wallet" options={{ headerShown: false }} />
     </Stack>
   );
 }

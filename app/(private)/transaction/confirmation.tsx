@@ -5,6 +5,7 @@ import Dialog, { DialogRef } from "@/components/Dialog";
 import InfoList from "@/components/InfoList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
+import { getCustomerNumberLabel } from "@/constants/CustomerNumberLabel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useLocalSearchParams, useRouter } from "expo-router/build/hooks";
@@ -21,7 +22,6 @@ export default function Confirmation() {
   const param = useLocalSearchParams<{
     productId: string;
     customerNumber: string;
-    customerNumberLabel?: string;
   }>();
 
   const productQuery = useQuery({
@@ -32,15 +32,16 @@ export default function Confirmation() {
   const purchaseMutation = useMutation({
     mutationFn: makePurchase,
     onSuccess: ({ id }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["wallet", "purchaseHistories"],
-      });
-
-      router.dismissAll();
-      router.navigate({
-        pathname: "/(private)/transaction/receipt",
-        params: { id },
-      });
+      queryClient
+        .invalidateQueries({
+          queryKey: ["wallet", "purchase-histories"],
+        })
+        .then(() => {
+          router.dismissTo({
+            pathname: "/(private)/transaction/receipt",
+            params: { id },
+          });
+        });
     },
     onError: (e) => {
       confirmDialogRef.current?.close();
@@ -110,7 +111,12 @@ export default function Confirmation() {
               </InfoList>
               <InfoList
                 style={{ justifyContent: "space-between" }}
-                title={param.customerNumberLabel || "No. Tujuan"}
+                title={
+                  getCustomerNumberLabel(
+                    productQuery.data?.brand?.name || "",
+                    productQuery.data?.category?.name || ""
+                  ).label || "No. Tujuan"
+                }
                 loading={productQuery.isLoading}
               >
                 {param.customerNumber}

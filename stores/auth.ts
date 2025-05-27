@@ -1,4 +1,5 @@
 import { MembershipModel } from "@/api/model/membership";
+import { UploadModel } from "@/api/model/upload";
 import { UserModel } from "@/api/model/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
@@ -8,6 +9,7 @@ export interface AuthState {
   user:
     | (UserModel & {
         membership?: MembershipModel | null;
+        avatar?: UploadModel | null;
       })
     | null;
   setUser: (user: UserModel) => void;

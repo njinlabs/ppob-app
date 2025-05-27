@@ -1,5 +1,6 @@
 import { client } from "./client";
 import { MembershipModel } from "./model/membership";
+import { UploadModel } from "./model/upload";
 import { UserModel } from "./model/user";
 
 export type RegisterPayload = Required<
@@ -38,6 +39,7 @@ export const checkToken = (
 ): Promise<{
   data: UserModel & {
     membership: MembershipModel | null;
+    avatar?: UploadModel | null;
   };
 }> =>
   client

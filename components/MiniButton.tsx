@@ -157,7 +157,7 @@ const MiniButton = forwardRef<View, MiniButtonProps>(
         ref={ref}
       >
         {LeftAccessory && (
-          <View style={{ marginRight: 6 }}>
+          <View style={{ marginRight: children ? 6 : 0 }}>
             <LeftAccessory />
           </View>
         )}
@@ -169,7 +169,7 @@ const MiniButton = forwardRef<View, MiniButtonProps>(
           {children}
         </Text>
         {RightAccessory && (
-          <View style={{ marginLeft: 6 }}>
+          <View style={{ marginLeft: children ? 6 : 0 }}>
             <RightAccessory />
           </View>
         )}

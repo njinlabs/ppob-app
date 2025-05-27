@@ -35,7 +35,13 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Izinkan $(PRODUCT_NAME) mengakses galeri Anda"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

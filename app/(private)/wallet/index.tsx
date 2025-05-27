@@ -1,19 +1,18 @@
-import { PurchaseModel } from "@/api/model/purchase";
-import { purchaseHistory } from "@/api/purchase";
+import { WalletLedgerModel } from "@/api/model/wallet-ledger";
+import { getWalletHistory } from "@/api/wallet";
 import Empty from "@/components/Empty";
 import PurchaseList from "@/components/PurchaseList";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link } from "expo-router";
 import moment from "moment";
 import { FlatList, RefreshControl, View } from "react-native";
 
-export default function History() {
+export default function WalletHistory() {
   const queryClient = useQueryClient();
   const historiesQuery = useQuery({
-    queryKey: ["purchase-histories"],
-    queryFn: () => purchaseHistory(),
+    queryKey: ["wallet-histories"],
+    queryFn: () => getWalletHistory(),
   });
 
   return (
@@ -33,7 +32,7 @@ export default function History() {
         });
 
         return current;
-      }, [] as (PurchaseModel & { showDate: boolean })[])}
+      }, [] as (WalletLedgerModel & { showDate: boolean })[])}
       refreshControl={
         <RefreshControl
           refreshing={historiesQuery.isRefetching}
@@ -57,7 +56,7 @@ export default function History() {
       ListEmptyComponent={
         <Empty
           title="Belum Ada Riwayat"
-          text="Kamu belum melakukan pembelian nih."
+          text="Kamu belum melakukan transaksi nih."
         />
       }
       renderItem={({ item, index }) => {
@@ -79,22 +78,40 @@ export default function History() {
               </View>
             )}
             <View style={{ paddingHorizontal: 22, marginTop: 12 }}>
-              <Link
-                href={{
-                  pathname: "/(private)/transaction/receipt",
-                  params: { id: item.id },
-                }}
-                asChild
-              >
-                <PurchaseList
-                  title={item.name}
-                  subtitle={item.customerNumber}
-                  total={item.total}
-                  date={date}
-                  loading={!item.id}
-                  status={item.status}
-                />
-              </Link>
+              <PurchaseList
+                title={
+                  item.event?.membership
+                    ? "PAKET MEMBERSHIP"
+                    : item.event?.purchase
+                    ? "PEMBELIAN"
+                    : item.event?.topup
+                    ? "TOP UP SALDO"
+                    : ""
+                }
+                subtitle={
+                  item.event?.membership
+                    ? item.event.membership.name
+                    : item.event?.purchase
+                    ? item.event.purchase.name
+                    : item.event?.topup
+                    ? item.event.topup.method
+                    : ""
+                }
+                icon={
+                  item.event?.membership
+                    ? "users"
+                    : item.event?.purchase
+                    ? "shopping-bag"
+                    : item.event?.topup
+                    ? "credit-card"
+                    : undefined
+                }
+                total={item.add}
+                date={date}
+                loading={!item.id}
+                status="SUCCESS"
+                disabled
+              />
             </View>
           </>
         );

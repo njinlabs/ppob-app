@@ -1,5 +1,6 @@
 import { getMembership, payMembership } from "@/api/membership";
 import Dialog, { DialogRef } from "@/components/Dialog";
+import Empty from "@/components/Empty";
 import MembershipList from "@/components/MembershipList";
 import { colors } from "@/constants/Colors";
 import { useAuth } from "@/stores/auth";
@@ -53,7 +54,7 @@ export default function Membership() {
     <>
       <FlatList
         data={
-          !membershipQuery.data && membershipQuery.isLoading
+          !membershipQuery.data?.length && membershipQuery.isLoading
             ? (Array(4).fill({}) as unknown as Required<
                 typeof membershipQuery.data
               >)
@@ -61,6 +62,15 @@ export default function Membership() {
         }
         style={{ flex: 1, backgroundColor: colors.grayscale[50], padding: 22 }}
         keyExtractor={(_, index) => `${index}`}
+        contentContainerStyle={{
+          flexGrow: !membershipQuery.data?.length ? 1 : undefined,
+        }}
+        ListEmptyComponent={
+          <Empty
+            title="Membership Masih Terbatas"
+            text="Nantikan pilihan paket membership selanjutnya"
+          />
+        }
         renderItem={({ item }) => (
           <MembershipList
             style={{ marginBottom: 16 }}

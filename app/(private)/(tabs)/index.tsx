@@ -160,33 +160,37 @@ export default function Dashboard() {
             )}
           />
           <View style={{ flexDirection: "row" }}>
-            <MiniButton
-              style={{ marginRight: 8 }}
-              leftAccesorry={() => (
-                <MaterialIcons
-                  name="credit-card"
-                  size={16}
-                  color={colors.white}
-                />
-              )}
-              loading={walletQuery.isLoading}
-              placeholderWidth={96}
-            >
-              Deposit
-            </MiniButton>
-            <MiniButton
-              leftAccesorry={() => (
-                <MaterialIcons
-                  name="receipt-long"
-                  size={16}
-                  color={colors.white}
-                />
-              )}
-              loading={walletQuery.isLoading}
-              placeholderWidth={96}
-            >
-              Mutasi
-            </MiniButton>
+            <Link href="/coming-soon" asChild>
+              <MiniButton
+                style={{ marginRight: 8 }}
+                leftAccesorry={() => (
+                  <MaterialIcons
+                    name="credit-card"
+                    size={16}
+                    color={colors.white}
+                  />
+                )}
+                loading={walletQuery.isLoading}
+                placeholderWidth={96}
+              >
+                Deposit
+              </MiniButton>
+            </Link>
+            <Link href="/(private)/wallet" asChild>
+              <MiniButton
+                leftAccesorry={() => (
+                  <MaterialIcons
+                    name="receipt-long"
+                    size={16}
+                    color={colors.white}
+                  />
+                )}
+                loading={walletQuery.isLoading}
+                placeholderWidth={96}
+              >
+                Mutasi
+              </MiniButton>
+            </Link>
           </View>
         </View>
       </View>

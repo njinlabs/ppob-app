@@ -1,5 +1,6 @@
 import { colors } from "@/constants/Colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FC } from "react";
 import { StatusBar, TouchableOpacity, View } from "react-native";
 import Text from "./Text";
 
@@ -7,10 +8,12 @@ export default function ActionBar({
   title,
   back,
   translucent,
+  buttons: Buttons,
 }: {
   title?: string;
   back?: () => void;
   translucent?: boolean;
+  buttons?: FC;
 }) {
   return (
     <View
@@ -35,14 +38,14 @@ export default function ActionBar({
           alignItems: "center",
         }}
       >
-        {back && (
-          <View
-            style={{
-              flex: 1,
-              height: "100%",
-              justifyContent: "center",
-            }}
-          >
+        <View
+          style={{
+            width: "20%",
+            height: "100%",
+            justifyContent: "center",
+          }}
+        >
+          {back && (
             <TouchableOpacity
               style={{
                 paddingLeft: 22,
@@ -58,9 +61,11 @@ export default function ActionBar({
                 style={{ color: colors.white }}
               />
             </TouchableOpacity>
-          </View>
-        )}
-        <View>
+          )}
+        </View>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <Text
             font="Nunito_800ExtraBold"
             size="large"
@@ -69,7 +74,19 @@ export default function ActionBar({
             {title}
           </Text>
         </View>
-        <View style={{ flex: 1, height: "100%" }}></View>
+        <View
+          style={{
+            width: "20%",
+            height: "100%",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingRight: 22,
+            gap: 8,
+            flexDirection: "row",
+          }}
+        >
+          {Buttons && <Buttons />}
+        </View>
       </View>
     </View>
   );

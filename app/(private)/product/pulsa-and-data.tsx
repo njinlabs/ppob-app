@@ -6,8 +6,9 @@ import TextInput from "@/components/TextInput";
 import { colors } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Dimensions, FlatList, View } from "react-native";
 
@@ -35,6 +36,19 @@ export default function PulsaAndData() {
   const getBrandMutation = useMutation({
     mutationFn: getBrandByPhone,
   });
+
+  const icon = useMemo(
+    () => () =>
+      getBrandMutation.isSuccess && getBrandMutation.data.image?.url ? (
+        <Image
+          source={{
+            uri: getBrandMutation.data.image.url,
+          }}
+          style={{ width: 28, height: 28, resizeMode: "contain" }}
+        />
+      ) : null,
+    [getBrandMutation.isSuccess]
+  );
 
   const onSelectProduct = (productId: string) =>
     handleSubmit(({ customerNumber }) => {
@@ -74,7 +88,9 @@ export default function PulsaAndData() {
                 label="Nomor Ponsel"
                 placeholder="Contoh: 08127176XXXX"
                 value={value}
+                keyboardType="phone-pad"
                 onChangeText={onChange}
+                rightAccesorry={icon}
                 leftAccessory={() => (
                   <AntDesign
                     name="contacts"

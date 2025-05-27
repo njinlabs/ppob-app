@@ -43,8 +43,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="notification"
         options={{
+          header: ({ options }) => <ActionBar title={options.title} />,
           title: "Notifikasi",
-          headerShown: false,
           tabBarIcon: ({ color }) => <Inbox size={20} fill={color} />,
         }}
       />

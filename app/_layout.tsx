@@ -62,7 +62,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="coming-soon"
           options={{
-            title: "Tunggu Dulu Ya!",
+            title: "Tungguin Ya!",
             header: ({ navigation, options }) => (
               <ActionBar
                 title={options.title}

@@ -1,4 +1,5 @@
 import { logout } from "@/api/auth";
+import Avatar from "@/components/Avatar";
 import BlockedButton from "@/components/BlockedButton";
 import Dialog, { DialogRef } from "@/components/Dialog";
 import MenuList from "@/components/MenuList";
@@ -70,26 +71,7 @@ export default function Account() {
                 {user?.phone}
               </Text>
             </View>
-            <View
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 64 / 2,
-                backgroundColor: colors.white,
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowRadius: 4,
-                shadowOpacity: 0.4,
-                shadowColor: colors.primary[800],
-                justifyContent: "center",
-                alignItems: "center",
-                elevation: 2,
-              }}
-            >
-              <Octicons name="person" size={24} color={colors.primary[700]} />
-            </View>
+            <Avatar size="medium" url={user?.avatar?.url} />
           </View>
           <View style={{ flexDirection: "row" }}>
             <Link href="/(private)/membership" asChild>
@@ -133,51 +115,65 @@ export default function Account() {
             borderColor: colors.grayscale[100],
           }}
         >
-          <MenuList
-            leftAccessory={() => (
-              <AntDesign name="edit" size={20} color={colors.primary[300]} />
-            )}
-            divider
-          >
-            Edit Profile
-          </MenuList>
-          <MenuList
-            leftAccessory={() => (
-              <AntDesign name="lock" size={20} color={colors.primary[300]} />
-            )}
-            divider
-          >
-            Ganti Password
-          </MenuList>
-          <MenuList
-            leftAccessory={() => (
-              <AntDesign
-                name="addusergroup"
-                size={20}
-                color={colors.primary[300]}
-              />
-            )}
-            divider
-          >
-            Referral Program
-          </MenuList>
-          <MenuList
-            leftAccessory={() => (
-              <AntDesign name="gift" size={20} color={colors.primary[300]} />
-            )}
-            divider
-          >
-            Poin & Reward
-          </MenuList>
-          <MenuList
-            leftAccessory={() => (
-              <AntDesign name="barcode" size={20} color={colors.primary[300]} />
-            )}
-          >
-            Voucher Saya
-          </MenuList>
+          <Link href="/(private)/setting/edit-profile" asChild>
+            <MenuList
+              leftAccessory={() => (
+                <AntDesign name="edit" size={20} color={colors.primary[300]} />
+              )}
+              divider
+            >
+              Edit Profile
+            </MenuList>
+          </Link>
+          <Link href="/(private)/setting/change-password" asChild>
+            <MenuList
+              leftAccessory={() => (
+                <AntDesign name="lock" size={20} color={colors.primary[300]} />
+              )}
+              divider
+            >
+              Ganti Password
+            </MenuList>
+          </Link>
+          <Link href="/coming-soon" asChild>
+            <MenuList
+              leftAccessory={() => (
+                <AntDesign
+                  name="addusergroup"
+                  size={20}
+                  color={colors.primary[300]}
+                />
+              )}
+              divider
+            >
+              Referral Program
+            </MenuList>
+          </Link>
+          <Link href="/coming-soon" asChild>
+            <MenuList
+              leftAccessory={() => (
+                <AntDesign name="gift" size={20} color={colors.primary[300]} />
+              )}
+              divider
+            >
+              Poin & Reward
+            </MenuList>
+          </Link>
+          <Link href="/coming-soon" asChild>
+            <MenuList
+              leftAccessory={() => (
+                <AntDesign
+                  name="barcode"
+                  size={20}
+                  color={colors.primary[300]}
+                />
+              )}
+            >
+              Voucher Saya
+            </MenuList>
+          </Link>
         </View>
-        <View
+        {/* <View
           style={{ paddingHorizontal: 22, paddingTop: 22, paddingBottom: 16 }}
         >
           <Text size="medium" font="Nunito_800ExtraBold">
@@ -224,7 +220,7 @@ export default function Account() {
           >
             Customer Care
           </MenuList>
-        </View>
+        </View> */}
         <BlockedButton
           onPress={() => logoutDialog.current?.show()}
           style={{ margin: 22, backgroundColor: colors.danger[500] }}
@@ -235,7 +231,7 @@ export default function Account() {
       <Dialog
         icon="danger"
         ref={logoutDialog}
-        title="Kamu yakin?"
+        title="Yakin?"
         text="Kamu akan keluar dari akun ini"
         confirmText="Ya, lanjutkan"
         loading={logoutMutation.isPending}

@@ -6,10 +6,9 @@ import MiniButton from "@/components/MiniButton";
 import Text from "@/components/Text";
 import { colors } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import moment from "moment";
-import { useEffect } from "react";
 import {
   Dimensions,
   RefreshControl,
@@ -21,22 +20,11 @@ import { NumericFormat } from "react-number-format";
 
 export default function Receipt() {
   const param = useLocalSearchParams<{ id: string }>();
-  const queryClient = useQueryClient();
 
   const purchaseQuery = useQuery({
-    queryKey: ["purchaseDetail"],
+    queryKey: [`purchase-detail-${param.id}`],
     queryFn: () => getPurchaseById(param.id),
   });
-
-  useEffect(() => {
-    if (purchaseQuery.data) {
-      queryClient.invalidateQueries({ queryKey: ["purchaseDetail"] });
-    }
-
-    return () => {
-      queryClient.removeQueries({ queryKey: ["purchaseDetail"] });
-    };
-  }, [param.id]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.grayscale[50] }}>
@@ -167,6 +155,7 @@ export default function Receipt() {
               )}
               appearance="rounded-outlined"
               loading={purchaseQuery.isLoading}
+              disabled
             >
               Bagikan
             </MiniButton>
@@ -176,6 +165,7 @@ export default function Receipt() {
               )}
               appearance="rounded-outlined"
               loading={purchaseQuery.isLoading}
+              disabled
             >
               Cetak
             </MiniButton>
@@ -185,6 +175,7 @@ export default function Receipt() {
               )}
               appearance="rounded-outlined"
               loading={purchaseQuery.isLoading}
+              disabled
             >
               Bantuan
             </MiniButton>
